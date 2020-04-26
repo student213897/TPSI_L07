@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Spring i Thymeleaf: lista pracowników</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+        
+        <style>
+            img.empPhoto {
+                width: 300px;
+            }
+            .fired {
+                color: firebrick;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid" th:inline="text">
+            <h1>Pan Prezes</h1>
+            <p>
+                <b>
+                    
+                    <span th:text='|${boss.firstName} ${boss.lastName}|'></span>
+                </b>
+            </p>
+            <img th:src="${boss.photoUrl}" class="empPhoto" 
+                 src="http://via.placeholder.com/250x250"/>
+
+            <h1>Pracownicy firmy</h1>
+
+            <table class="table table-striped">
+                <tr>
+                    <th>Lp</th>
+                    <th>Pensja</th>
+                    <th>Imię i nazwisko</th>
+                    <th>Stanowisko</th>
+                    <th>Data zatrudnienia</th>
+                    <th>Data zwolnienia</th>
+                    <th>Umiejętności</th>
+                    <th>Uwagi</th>
+                    <th>Zdjęcie</th>
+                </tr>
+                
+                <tr th:each="Employee : ${employees}">                    
+                  
+                    <td th:text="${EmployeeStat.index}">lp</td>
+                    <td th:text="${#numbers.formatDecimal(Employee.salary,3,'WHITESPACE',2,'POINT')}"></td>
+                    
+                    <td th:text='|${Employee.firstName} ${Employee.lastName}|'>nazwisko</td>
+                    <td th:text="${Employee.jobTitle}">Nazwisko</td>
+                   
+                    <td th:text="${#dates.format(Employee.dateOfEmployment, 'dd.MM.yyyy')}"></td>
+                   
+                   
+                   
+                   <td th:class="${#lists.isEmpty(Employee.dateOfTermination)}? '' : 'fired'" th:text="${#lists.isEmpty(Employee.dateOfTermination)}? 'Wciąż pracuje' : ${#dates.format(Employee.dateOfTermination,'dd.MMM.yyyy')}"></td>
+                   <td>
+                    <div th:each="ability,iterStat : ${Employee.skills}" >
+                            <p th:text="${iterStat.last}? |${ability.name}  (${ability.level})| : |${ability.name}  (${ability.level}),|"></p>
+                    </div>
+                   </td>
+                    <td>
+                        <div th:each="comment : ${Employee.comments}" >
+                            <p th:text="${comment}"></p>
+                        </div>
+                    </td>
+                   <td>
+                        <img th:src="${Employee.photoUrl}" th:class="empPhoto"
+                        src="http://via.placeholder.com/250x250"/>
+                   </td>
+                   
+                </tr>
+                
+            </table>
+        </div>
+    </body>
+</html>
