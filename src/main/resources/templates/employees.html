@@ -50,13 +50,13 @@
                     <td th:text="${#numbers.formatDecimal(Employee.salary,3,'WHITESPACE',2,'POINT')}"></td>
                     
                     <td th:text='|${Employee.firstName} ${Employee.lastName}|'>nazwisko</td>
-                    <td th:text="${Employee.jobTitle}">Nazwisko</td>
+                    <td th:text="${Employee.jobTitle}">praca</td>
                    
                     <td th:text="${#dates.format(Employee.dateOfEmployment, 'dd.MM.yyyy')}"></td>
                    
                    
                    
-                   <td  th:text="${#lists.isEmpty(Employee.dateOfTermination)}? 'Wciąż pracuje' : ${#dates.format(Employee.dateOfTermination,'dd.MMM.yyyy')}"></td>
+                   <td  th:text="${#lists.isEmpty(Employee.dateOfTermination)}? 'Wciąż pracuje' : ${#dates.format(Employee.dateOfTermination,'dd.MM.yyyy')}"></td>
                    <td>
               
                             <p 
@@ -64,14 +64,14 @@
                                 th:text="${iterStat.last}? |${ability.name}  (${ability.level})| : |${ability.name}  (${ability.level}),|"
                                 
                                 >
-                                    
+                                
                             </p>
        
                    </td>
                    
                     <td >
-                        <p th:each="comment : ${Employee.comments}"></p>
-                            <p th:text="${comment}"></p>                        
+                        <p th:each="comment : ${Employee.comments}" th:text="${comment}"></p>
+                                             
                     </td>
                    
                    <td>
