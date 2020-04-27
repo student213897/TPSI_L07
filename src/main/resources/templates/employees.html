@@ -44,7 +44,7 @@
                     <th>Zdjęcie</th>
                 </tr>
                 
-                <tr th:each="Employee : ${employees}">                    
+                <tr th:class="${#lists.isEmpty(Employee.dateOfTermination)}? '' : 'fired'" th:each="Employee : ${employees}">                    
                   
                     <td th:text="${EmployeeStat.index}">lp</td>
                     <td th:text="${#numbers.formatDecimal(Employee.salary,3,'WHITESPACE',2,'POINT')}"></td>
@@ -56,17 +56,24 @@
                    
                    
                    
-                   <td th:class="${#lists.isEmpty(Employee.dateOfTermination)}? '' : 'fired'" th:text="${#lists.isEmpty(Employee.dateOfTermination)}? 'Wciąż pracuje' : ${#dates.format(Employee.dateOfTermination,'dd.MMM.yyyy')}"></td>
+                   <td  th:text="${#lists.isEmpty(Employee.dateOfTermination)}? 'Wciąż pracuje' : ${#dates.format(Employee.dateOfTermination,'dd.MMM.yyyy')}"></td>
                    <td>
-                    <div th:each="ability,iterStat : ${Employee.skills}" >
-                            <p th:text="${iterStat.last}? |${ability.name}  (${ability.level})| : |${ability.name}  (${ability.level}),|"></p>
-                    </div>
+              
+                            <p 
+                                th:each="ability,iterStat : ${Employee.skills}"
+                                th:text="${iterStat.last}? |${ability.name}  (${ability.level})| : |${ability.name}  (${ability.level}),|"
+                                
+                                >
+                                    
+                            </p>
+       
                    </td>
-                    <td>
-                        <div th:each="comment : ${Employee.comments}" >
-                            <p th:text="${comment}"></p>
-                        </div>
+                   
+                    <td >
+                        <p th:each="comment : ${Employee.comments}"></p>
+                            <p th:text="${comment}"></p>                        
                     </td>
+                   
                    <td>
                         <img th:src="${Employee.photoUrl}" th:class="empPhoto"
                         src="http://via.placeholder.com/250x250"/>
